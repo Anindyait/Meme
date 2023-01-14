@@ -291,6 +291,16 @@ a:hover{
   background-color: #48a348;
 }
 
+.post-button{
+	padding: 10px 30px 10px 30px;
+	border-radius: 30px;
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	font-size: 20px;
+	
+}
+
 .header{
 	border-radius: 0px 0px 30px 30px;
 	/* border:2px solid rgba(0,0,0,0.4);*/

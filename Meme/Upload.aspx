@@ -13,7 +13,7 @@
         <div class="font">
             <div class="container-fluid">
             
-                <textarea name="address" class="form-control post-title" id="post_title" placeholder="An interesting title"  id="title" rows="3" required></textarea>
+                <textarea name="address" runat="server" class="form-control post-title" id="post_title" placeholder="An interesting title" rows="3" required></textarea>
 
                 <asp:FileUpload ID="FileUpload1" runat="server" style="display:block; margin: 0 auto;"/>
                 <asp:Label ID="Label1" runat="server" style="display:block; margin: 0 auto;text-align:center" ></asp:Label>

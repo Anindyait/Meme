@@ -10,12 +10,23 @@ namespace Meme.Controllers
     {
         public ActionResult Index()
         {
+            HttpCookie cookie = Request.Cookies["meme_cookie"];
             var Memes = new MemeModel();
-            ViewBag.IndexMsg = "Hello!";
 
-            Memes.GetMemes();
-        
-            return View(Memes);
+
+            if (cookie != null)
+            {
+                ViewBag.IndexMsg = "Hello!";
+
+                Memes.GetMemes();
+
+                return View(Memes);
+            }
+            else
+            {
+                Response.Redirect("/Login.aspx");
+                return View(Memes);
+            }
         }
 
         public ActionResult About()

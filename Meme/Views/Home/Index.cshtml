@@ -9,6 +9,8 @@
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous">
     </script>
+    <script src="https://kit.fontawesome.com/13deb536c6.js" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="../Content/style1.css">
 </head>
 
@@ -17,17 +19,23 @@
         <div class="container-fluid">
 
             <h2>Index</h2>
-            
-       
 
-            @for (int i = 0; i < Model.eachMeme.Count; i++)
+            <a href="~/Upload.aspx">
+                <div class="post-button btn btn-primary"><i class="fa-solid fa-plus fa-sm"></i>&nbsp;&nbsp;Post</div>
+            </a>
+
+
+            @if (Model.eachMeme != null)
             {
-                <div class="postcard">
+                for (int i = 0; i < Model.eachMeme.Count; i++)
+                {
+                    <div class="postcard">
 
-                    <div class="postersname">@Model.eachMeme[i].poster_name</div>
-                    <div class="posttitle">@Model.eachMeme[i].meme_title</div>
-                    <img src="../@Model.eachMeme[i].address">
-                </div>
+                        <div class="postersname">@Model.eachMeme[i].poster_name</div>
+                        <div class="posttitle">@Model.eachMeme[i].meme_title</div>
+                        <img src="../@Model.eachMeme[i].address">
+                    </div>
+                }
             }
 
         </div>
