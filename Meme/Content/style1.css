@@ -141,12 +141,26 @@ a:hover{
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
 }
 
+.postcard video{
+	width:600px;
+	border-radius:20px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+}
+
+
+
 @media only screen and (max-width: 700px) {
 
 	.postcard{
 		width: 450px;
 	}
 	.postcard img{
+		width: 400px;
+	}
+	.postcard video{
 		width: 400px;
 	}
 } 
@@ -1474,12 +1488,7 @@ input:focus{
 	overflow: hidden;
    }
 
-   video{
-	border-radius: 30px;
-	width: 90%;
-	margin-top: 35px;
-	transform: scale(1.4);
-   }
+
 
    .video-container{
 	padding-bottom: 30px;

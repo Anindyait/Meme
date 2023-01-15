@@ -29,12 +29,21 @@
             {
                 for (int i = 0; i < Model.eachMeme.Count; i++)
                 {
-                    <div class="postcard">
+        <div class="postcard">
 
-                        <div class="postersname">@Model.eachMeme[i].poster_name</div>
-                        <div class="posttitle">@Model.eachMeme[i].meme_title</div>
-                        <img src="../@Model.eachMeme[i].address">
-                    </div>
+            <div class="postersname">@Model.eachMeme[i].poster_name</div>
+            <div class="posttitle">@Model.eachMeme[i].meme_title</div>
+
+            @if (Model.eachMeme[i].type)
+            {
+                <video src="../@Model.eachMeme[i].address" controls/>
+
+            }
+            else
+            {
+                <img src="../@Model.eachMeme[i].address">
+            }
+            </div>
                 }
             }
 

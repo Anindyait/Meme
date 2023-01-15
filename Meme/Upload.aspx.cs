@@ -36,7 +36,9 @@ namespace Meme
                     string fileExtension = System.IO.Path.GetExtension(FileUpload1.FileName);
                     fileExtension = fileExtension.ToLower();
 
-                    if (fileExtension != ".jpg" && fileExtension != ".jpeg" && fileExtension != ".png" && fileExtension != ".gif")
+                    String[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".webm", ".mp4", ".mov", "flv"};
+
+                    if (!allowedExtensions.Contains(fileExtension))
                     {
                         Label1.Text = "Not an image";
                         Label1.ForeColor = System.Drawing.Color.Red;
@@ -75,6 +77,8 @@ namespace Meme
 
                             con.Close();
                             con.Open();
+
+
 
                         }
                     }

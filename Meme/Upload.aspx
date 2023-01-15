@@ -14,14 +14,11 @@
             <div class="container-fluid">
             
                 <textarea name="address" runat="server" class="form-control post-title" id="post_title" placeholder="An interesting title" rows="3" required></textarea>
-                <label for="post_age">Sutiable for ages above: </label>
-                <input name="age" type="number" min="1" max="100" class="post-age" id="post_age" placeholder="18"/>
-                <br />
 
                 <asp:FileUpload ID="FileUpload1" runat="server" style="display:block; margin: 0 auto;" ValidateRequestMode="Enabled" ViewStateMode="Enabled"/>
                 <asp:Label ID="Label1" runat="server" style="display:block; margin: 0 auto;text-align:center" ></asp:Label>
 
-                <br />
+                <br>
                 <asp:Button class="btn btn-primary form-submit" style="display:block; margin: 0 auto;" ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
         
             
