@@ -13,6 +13,12 @@ namespace Meme
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            HttpCookie cookie = Request.Cookies["meme_cookie"];
+            if (cookie == null)
+            {
+                Response.Redirect("/Login.aspx");
+            }
+
 
         }
 
