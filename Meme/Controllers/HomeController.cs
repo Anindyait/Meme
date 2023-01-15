@@ -44,5 +44,13 @@ namespace Meme.Controllers
 
             return View();
         }
+
+        public ActionResult Upload()
+        {
+            ViewBag.Message = "Your upload page";
+
+           
+            return View();
+        }
     }
 }
