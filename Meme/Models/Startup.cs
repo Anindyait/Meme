@@ -60,7 +60,7 @@ namespace Startup.Models
                                            "user_id integer," +
                                            "liked_no integer(20)," +
                                            "disliked_no integer(20)," +
-                                           "imgs varchar(50) not null," +
+                                           "imgs varchar(255) not null," +
                                            "age integer(20)," +
                                            "primary key(meme_no)," +
                                            "foreign key(user_id) references user_table(user_id));", con);
