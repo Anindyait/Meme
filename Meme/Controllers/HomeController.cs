@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Meme.Models;
+using Startup.Models;
 namespace Meme.Controllers
 {
     public class HomeController : Controller
@@ -12,7 +13,8 @@ namespace Meme.Controllers
         {
             HttpCookie cookie = Request.Cookies["meme_cookie"];
             var Memes = new MemeModel();
-
+            var Start = new StartupModel();
+            Start.CreateTables();
 
             if (cookie != null)
             {

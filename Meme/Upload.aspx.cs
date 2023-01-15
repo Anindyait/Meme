@@ -20,13 +20,11 @@ namespace Meme
         {
             HttpCookie cookie = Request.Cookies["meme_cookie"];
 
-
-
             if (cookie != null)
             {
                 //get the uid from cookies, comes in the form "uid=1", hence Substring(4)
                 Debug.WriteLine(cookie.Value.Substring(4));
-                
+
                 //get the post_title from the text field.
                 Debug.WriteLine(post_title.Value);
 
@@ -55,7 +53,7 @@ namespace Meme
                             con.Open();
 
                             MySqlCommand cmd;
-                            if (Request.Form["age"] == null)
+                            if (Request.Form["age"] == null || Request.Form["age"] == "")
                             {
                                 cmd = new MySqlCommand("insert into meme_table(m_name, imgs, user_id) values (@M_name, @Imgs, @UID)", con);
 
@@ -84,7 +82,11 @@ namespace Meme
                     }
                 }
             }
-        
+            else
+            {
+                Response.Redirect("/Login.aspx");
+            }
+
         }
     }
 }
