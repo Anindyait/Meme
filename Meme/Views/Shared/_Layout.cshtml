@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model Meme.Models.MemeModel
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,7 +17,7 @@
         <nav class="navbar navbar-expand-lg header">
             <!--Store name and Logo-->
 
-            <a class="navbar-brand" style="text-decoration:none" href="Index.html">
+            <a class="navbar-brand" style="text-decoration:none" href="/">
                 <div class="row">
                     <div class="col">
                         <img class="brand-img" src="../../Content/amongus.png" height="60">
@@ -37,15 +39,15 @@
 
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="Index.html" class="nav-link nav-link1 active">Home</a>
+                        <a href="/" class="nav-link nav-link1 active">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link nav-link1 active">Products</a>
+                        <a href="~/Home/Profile?uid=@Model.GetUID()" class="nav-link nav-link1 active">My Profile</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="aboutUs.html" class="nav-link nav-link1 active">About Sus</a>
+                        <a href="~/Home/About" class="nav-link nav-link1 active">About Sus</a>
                     </li>
 
                 </ul>

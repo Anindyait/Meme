@@ -114,7 +114,7 @@ a:hover{
 	width:650px;
 	padding: 20px 20px 27px 20px;
 	background-color: rgb(255, 255, 255);
-	box-shadow: 0px 0px 5px rgba(0,0,0,0.15);
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.17);
 	border-radius: 30px;
 	margin-left:auto;
 	margin-right:auto;
@@ -125,6 +125,48 @@ a:hover{
 	/*display:inline-flex;*/
 }
 
+.user-tag {
+	max-width:300px;
+	padding: 10px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+	border:1px solid rgba(0, 0, 0, 0.414);
+	border-radius: 30px;
+	position: fixed;
+	left: 40px;
+	bottom: 40px;
+	z-index:3;
+	text-transform: capitalize;
+	text-align: center;
+  	animation: fadeUp 0.5s;
+}
+
+
+
+.post-button{
+	padding: 10px 25px 10px 20px;
+	border-radius: 30px;
+	position: fixed;
+	bottom: 40px;
+	right: 40px;
+	font-size: 22px;
+	z-index: 3;
+	border: 0px solid black;
+	background-color: #dd1b1b;
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+
+}
+
+.post-button:hover{
+
+	background-color: #c61717;
+}
+
+.post-button:not(:disabled):not(.disabled):active, .post-button:not(:disabled):not(.disabled).active,
+.show > .post-button.dropdown-toggle {
+  color: #fff;
+  background-color: #9d1313;
+}
 
 
 .postcard:hover {
@@ -150,30 +192,117 @@ a:hover{
 	box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
 }
 
+.postcard a{
+	text-decoration: none;
+	color: #000000;
+}
 
+.postcard a:hover{
+	text-decoration: underline;
+}
+
+.profilecard {
+	width:650px;
+	padding: 20px 20px 27px 20px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	border: 2px solid rgba(0, 0, 0, 0.311);
+	border-radius: 30px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:20px;
+	margin-top:20px;
+	animation: fadeUp 0.5s;
+}
 
 @media only screen and (max-width: 700px) {
 
 	.postcard{
 		width: 450px;
 	}
+
 	.postcard img{
 		width: 400px;
 	}
 	.postcard video{
 		width: 400px;
 	}
+
+	.user-tag{
+		bottom: 10px;
+		left: 10px;
+	}
+	.post-button{
+		bottom: 10px;
+		right: 10px;
+	}
+	.profilecard{
+		width: 450px;
+	}
 } 
 
 
+
+#details{
+	padding: 10px;
+
+}
+
+.user-tag{}
+
+.user-id{
+	font-size: 23px;
+	padding-left: 7px;
+	font-weight: bold;
+	color: #000000;
+	opacity: 60%;
+}
+
+#user-id{
+	padding-left: 20px;
+	font-size: 50px;
+	font-weight: bold;
+	opacity: 80%;
+}
+.email{
+	padding-left: 25px;
+	font-size: 20px;
+	opacity: 70%;
+}
+
+.profile-name{
+	padding-left: 20px;
+	font-size: 40px;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+
+.you{
+	padding-left: 0px;
+	font-size: 40px;
+	font-weight: bold;
+	opacity: 50%;
+}
+
+.user-name{
+	font-size: 22px;
+	padding: 20px 20px 10px 7px;
+	opacity: 90%;
+	font-weight: bold;
+	color: #000000;
+}
+
+
+
 .postersname{
-	font-size:14px;
+	font-size:16px;
 	padding-left:20px;
 	opacity:80%;
+	text-transform: capitalize;
 }
 
 .posttitle{
-	font-size:30px;
+	font-size:33px;
 	padding:5px 20px 15px 20px;
 	line-height: 1.2;
 	opacity: 90%;
@@ -237,33 +366,10 @@ a:hover{
 	padding-left: 25px;
 }
 
-.Buy{
-	padding:15px 30px 15px 30px;
-	border-radius:30px;
-	letter-spacing:2px;
-	border-color:darkorange;
-	font-family: Open Sans Bold;
-	color:white;
-	font-size:20px;
-}
-.AddtoCart {
-	padding: 15px 30px 15px 30px;
-	border-radius: 30px;
-	letter-spacing: 0px;
-	font-family: Open Sans Bold;
-	font-size: 20px;
-}
-
-.button-grid{
-	text-align:center;
-	padding:20px 0px 0px 0px;
-}
 
 
-.desc{
-	height:290px;
-	
-}
+
+
 
 .round{
 	border-radius:15px;
@@ -318,26 +424,6 @@ a:hover{
   background-color: #48a348;
 }
 
-.post-button{
-	padding: 10px 30px 10px 30px;
-	border-radius: 30px;
-	position: fixed;
-	bottom: 30px;
-	right: 30px;
-	font-size: 20px;
-	background-color: black;
-}
-
-.post-button:hover{
-
-	background-color: rgb(48, 48, 48);
-}
-
-.post-button:not(:disabled):not(.disabled):active, .post-button:not(:disabled):not(.disabled).active,
-.show > .post-button.dropdown-toggle {
-  color: #fff;
-  background-color: #181818;
-}
 
 .header{
 	border-radius: 0px 0px 30px 30px;
@@ -346,14 +432,14 @@ a:hover{
 	z-index: 10;
 	left:0px;
 	right:0px;
-
-	height: 5rem;
+	height: 4.5rem;
 	background-color: rgb(255, 255, 255);
 	
 }
 
 @media only screen and (max-width: 992px) { 
 	.header { 
+	  
 	  height: fit-content;
 	} 
 }
@@ -458,7 +544,7 @@ a:hover{
 	z-index: 150;
 	position: fixed;
 	right:0px;
-	top: 23px;
+	top: 18px;
 	padding-right: 20px;
 }
 

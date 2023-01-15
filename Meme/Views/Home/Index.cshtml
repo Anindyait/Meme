@@ -18,11 +18,11 @@
     <div class="font">
         <div class="container-fluid">
 
-            <h2>Index</h2>
 
             <a href="~/Upload.aspx">
                 <div class="post-button btn btn-primary"><i class="fa-solid fa-plus fa-sm"></i>&nbsp;&nbsp;Post</div>
             </a>
+
 
 
             @if (Model.eachMeme != null)
@@ -30,20 +30,21 @@
                 for (int i = 0; i < Model.eachMeme.Count; i++)
                 {
         <div class="postcard">
-
-            <div class="postersname">@Model.eachMeme[i].poster_name</div>
+            <a href="Home/Profile?uid=@Model.eachMeme[i].uid">
+                <div class="postersname">@Model.eachMeme[i].poster_name</div>
+            </a>
             <div class="posttitle">@Model.eachMeme[i].meme_title</div>
 
             @if (Model.eachMeme[i].type)
             {
-                <video src="../@Model.eachMeme[i].address" controls/>
+                <video src="../@Model.eachMeme[i].address" controls />
 
             }
             else
             {
                 <img src="../@Model.eachMeme[i].address">
             }
-            </div>
+        </div>
                 }
             }
 

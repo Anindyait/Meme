@@ -11,14 +11,14 @@ namespace Meme.Controllers
     {
         public ActionResult Index()
         {
-            HttpCookie cookie = Request.Cookies["meme_cookie"];
             var Memes = new MemeModel();
             var Start = new StartupModel();
             Start.CreateTables();
 
-            if (cookie != null)
+            string uid = Memes.GetUID();
+
+            if (uid != null)
             {
-                ViewBag.IndexMsg = "Hello!";
 
                 Memes.GetMemes();
 
@@ -31,28 +31,43 @@ namespace Meme.Controllers
             }
         }
 
+        public new ActionResult Profile(string uid)
+        {
+            var Memes = new MemeModel();
+            Memes.GetUserDetails(uid);
+            Memes.GetMemes(uid);
+
+            return View(Memes);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
             ViewBag.Something = "Microsoft bekar";
+            var Memes = new MemeModel();
 
-            return View();
+
+            return View(Memes);
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+            var Memes = new MemeModel();
 
-            return View();
+
+            return View(Memes);
         }
 
         public ActionResult Upload()
         {
             ViewBag.Message = "Your upload page";
 
-           
-            return View();
+            var Memes = new MemeModel();
+
+            return RedirectToAction("../Upload.aspx");
         }
+
     }
 }

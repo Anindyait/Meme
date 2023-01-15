@@ -7,6 +7,19 @@
     <title></title>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="Content/style1.css">
+
+    <script>
+        function imagepreview(input) {
+            if (input.files && input.file[0]) {
+                var fildr = new FileReader();
+                fildr.onload = function (e) {
+                    $('#imgprw').attr('src', e.target.result);
+                }
+                fildr.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
 </head>
 <body>
     <form id="form1" runat="server">
@@ -15,11 +28,12 @@
             
                 <textarea name="address" runat="server" class="form-control post-title" id="post_title" placeholder="An interesting title" rows="3" required></textarea>
 
-                <asp:FileUpload ID="FileUpload1" runat="server" style="display:block; margin: 0 auto;" ValidateRequestMode="Enabled" ViewStateMode="Enabled"/>
+                <asp:FileUpload ID="FileUpload1" runat="server" style="display:block; margin: 0 auto;" ValidateRequestMode="Enabled" ViewStateMode="Enabled" onchange ="imagepreview(this)"/>
+<%--                <img id="imgprw" alt="image before upload" />--%>
                 <asp:Label ID="Label1" runat="server" style="display:block; margin: 0 auto;text-align:center" ></asp:Label>
 
                 <br>
-                <asp:Button class="btn btn-primary form-submit" style="display:block; margin: 0 auto;" ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
+                <asp:Button class="btn btn-primary form-submit" style="display:block; margin: 0 auto;" ID="Button1" runat="server" OnClick="Button1_Click" Text="Upload" />
         
             
                 </div>

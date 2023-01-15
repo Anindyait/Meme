@@ -12,12 +12,14 @@ namespace Meme.Models
 
         public struct post
         {
+            public string uid;
             public string poster_name;
             public string meme_title;
             public string address;
             public bool type;
-            public post(string poster_name, string meme_title, string address, bool type)
+            public post(string uid, string poster_name, string meme_title, string address, bool type)
             {
+                this.uid = uid;
                 this.poster_name = poster_name;
                 this.meme_title = meme_title;
                 this.address = address;
@@ -26,9 +28,44 @@ namespace Meme.Models
             }
         }
 
+        public struct user_details
+        {
+            public string uid;
+            public string first_name;
+            public string last_name;
+            public string email;
+            public string phone;
+            public user_details(string uid="", string first_name="a", string last_name="b", string email="c", string phone="1")
+            {
+                this.uid = uid;
+                this.first_name = first_name;
+                this.last_name = last_name;
+                this.email = email;
+                this.phone = phone;
+            }
+        }
+
+        string allMeme = "select * from meme_table order by meme_no desc";
+
+
         public List<post> eachMeme { get; set; }
 
-        public void GetMemes()
+        public user_details user { get; set; }
+
+        public string GetUID()
+        {
+            HttpCookie cookie = HttpContext.Current.Request.Cookies["meme_cookie"];
+
+            string uid = null;
+
+            if(cookie!=null)
+            {
+                uid = cookie.Value.Substring(4);
+            }
+            return uid;
+        }
+
+        public void GetMemes(String uid = null)
         {
 
             eachMeme = new List<post>();
@@ -39,9 +76,16 @@ namespace Meme.Models
 
                 MySqlCommand cmd;
 
-                cmd = new MySqlCommand("select * from meme_table order by meme_no desc", con);
+                if (uid == null)
+                {
+                    cmd = new MySqlCommand(allMeme, con);
+                }
 
-               
+                else
+                {
+                    cmd = new MySqlCommand("select * from meme_table where user_id = @User_id order by meme_no desc", con);
+                    cmd.Parameters.AddWithValue("@User_id", uid);
+                }
 
                 MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -51,7 +95,7 @@ namespace Meme.Models
                     MySqlConnection con2 = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd");
 
                     con2.Open();
-                    
+
                     //to get the user name from the user_table using the user_id
                     MySqlCommand cmd2 = new MySqlCommand("select first_name, last_name from user_table where user_id = @User_id", con2);
 
@@ -72,19 +116,38 @@ namespace Meme.Models
 
                     if (user_name.Read())
                     {
-                        eachMeme.Add(new post(user_name["first_name"].ToString() +" " + user_name["last_name"].ToString(), reader["m_name"].ToString(), reader["imgs"].ToString(), filetype));
+                        eachMeme.Add(new post(reader["user_id"].ToString(), user_name["first_name"].ToString() + " " + user_name["last_name"].ToString(), reader["m_name"].ToString(), reader["imgs"].ToString(), filetype));
                     }
+
+                    con2.Close();
                 }
 
-
+                con.Close();
             }
 
-            //        eachMeme.Add(new post("u/aimbot", "Title1", "Memes/meme1.jpg"));
-            //eachMeme.Add(new post("u/saibot", "Title2", "Memes/meme2.jpg"));
+        }
+
+
+        public void GetUserDetails(String uid)
+        {
+            using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+            {
+                con.Open();
+
+                MySqlCommand cmd;
+
+                cmd = new MySqlCommand("select * from user_table where user_id = @User_id", con);
+                cmd.Parameters.AddWithValue("@User_id", uid);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    user = new user_details(uid, reader["first_name"].ToString(), reader["last_name"].ToString(), reader["email"].ToString(), reader["phone"].ToString());
+                }
+
+                con.Close();
+            }
         }
     }
-
-
-
-
 }
