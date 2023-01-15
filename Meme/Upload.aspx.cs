@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -46,6 +47,36 @@ namespace Meme
                         Label1.ForeColor = System.Drawing.Color.Green;
                         FileUpload1.SaveAs(Request.PhysicalApplicationPath + "/Memes/" + FileUpload1.FileName.ToString());
                         Debug.WriteLine(FileUpload1.FileName.ToString());
+
+                        using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+                        {
+                            con.Open();
+
+                            MySqlCommand cmd;
+                            if (Request.Form["age"] == null)
+                            {
+                                cmd = new MySqlCommand("insert into meme_table(m_name, imgs, user_id) values (@M_name, @Imgs, @UID)", con);
+
+                                cmd.Parameters.AddWithValue("@M_name", post_title.Value);
+                                cmd.Parameters.AddWithValue("@Imgs", "Memes/" + FileUpload1.FileName.ToString());
+                                cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                            }
+                            else
+                            {
+                                cmd = new MySqlCommand("insert into meme_table(m_name, imgs, age, user_id) values (@M_name, @Imgs, @Age, @UID)", con);
+
+                                cmd.Parameters.AddWithValue("@M_name", post_title.Value);
+                                cmd.Parameters.AddWithValue("@Imgs", "Memes/" + FileUpload1.FileName.ToString());
+                                cmd.Parameters.AddWithValue("@Age", Request.Form["age"]);
+                                cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                            }
+
+                            cmd.ExecuteNonQuery();
+
+                            con.Close();
+                            con.Open();
+
+                        }
                     }
                 }
             }
