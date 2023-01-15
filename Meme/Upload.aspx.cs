@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Meme.Models;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -121,6 +122,9 @@ namespace Meme
 
                                 cmd.ExecuteNonQuery();
                                 FileUpload1.SaveAs(Request.PhysicalApplicationPath + "/Memes/" + imgs);
+
+                                var Model = new MemeModel();
+                                Response.Redirect("~/Home/Profile?uid=" + Model.GetUID());
 
 
                             }
