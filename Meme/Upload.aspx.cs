@@ -13,6 +13,12 @@ namespace Meme
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            HttpCookie cookie = Request.Cookies["meme_cookie"];
+            if (cookie == null)
+            {
+                Response.Redirect("/Login.aspx");
+            }
+
 
         }
 
@@ -45,40 +51,89 @@ namespace Meme
                     {
                         Label1.Text = "Image uploaded";
                         Label1.ForeColor = System.Drawing.Color.Green;
-                        FileUpload1.SaveAs(Request.PhysicalApplicationPath + "/Memes/" + FileUpload1.FileName.ToString());
                         Debug.WriteLine(FileUpload1.FileName.ToString());
+
+                        string imgs = FileUpload1.FileName.ToString();
 
                         using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
                         {
-                            con.Open();
 
-                            MySqlCommand cmd;
-                            if (Request.Form["age"] == null || Request.Form["age"] == "")
+                            try
                             {
-                                cmd = new MySqlCommand("insert into meme_table(m_name, imgs, user_id) values (@M_name, @Imgs, @UID)", con);
+                                con.Open();
 
-                                cmd.Parameters.AddWithValue("@M_name", post_title.Value);
-                                cmd.Parameters.AddWithValue("@Imgs", "Memes/" + FileUpload1.FileName.ToString());
-                                cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                                MySqlCommand cmd;
+
+
+                                cmd = new MySqlCommand("select imgs from meme_table where imgs = @Imgs;", con);
+                                cmd.Parameters.AddWithValue("@Imgs", "Memes/" + imgs);
+
+                                MySqlDataReader reader = cmd.ExecuteReader();
+
+                                if (reader.Read())
+                                {
+                                    Debug.WriteLine("Found duplicate " + imgs);
+                                    imgs = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + imgs;
+                                    Debug.WriteLine("Found duplicate " + imgs);
+
+                                }
+
+
                             }
-                            else
+                            catch (MySqlException ex)
                             {
-                                cmd = new MySqlCommand("insert into meme_table(m_name, imgs, age, user_id) values (@M_name, @Imgs, @Age, @UID)", con);
-
-                                cmd.Parameters.AddWithValue("@M_name", post_title.Value);
-                                cmd.Parameters.AddWithValue("@Imgs", "Memes/" + FileUpload1.FileName.ToString());
-                                cmd.Parameters.AddWithValue("@Age", Request.Form["age"]);
-                                cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                                Debug.WriteLine(ex);
                             }
-
-                            cmd.ExecuteNonQuery();
-
-                            con.Close();
-                            con.Open();
-
-
-
+                            finally
+                            {
+                                con.Close();
+                            }
                         }
+
+                        using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+                        {
+
+                            try
+                            {
+                                con.Open();
+
+                                MySqlCommand cmd;
+
+                                //string imgs = "Memes/" + FileUpload1.FileName.ToString();
+
+                                if (Request.Form["age"] == null || Request.Form["age"] == "")
+                                {
+                                    cmd = new MySqlCommand("insert into meme_table(m_name, imgs, user_id) values (@M_name, @Imgs, @UID)", con);
+
+                                    cmd.Parameters.AddWithValue("@M_name", post_title.Value);
+                                    cmd.Parameters.AddWithValue("@Imgs", "Memes/" + imgs);
+                                    cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                                }
+                                else
+                                {
+                                    cmd = new MySqlCommand("insert into meme_table(m_name, imgs, age, user_id) values (@M_name, @Imgs, @Age, @UID)", con);
+
+                                    cmd.Parameters.AddWithValue("@M_name", post_title.Value);
+                                    cmd.Parameters.AddWithValue("@Imgs", "Memes/" + imgs);
+                                    cmd.Parameters.AddWithValue("@Age", Request.Form["age"]);
+                                    cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                                }
+
+                                cmd.ExecuteNonQuery();
+                                FileUpload1.SaveAs(Request.PhysicalApplicationPath + "/Memes/" + imgs);
+
+
+                            }
+                            catch (MySqlException ex)
+                            {
+                                Debug.WriteLine(ex);
+                            }
+                            finally
+                            {
+                                con.Close();
+                            }
+                        }
+                    
                     }
                 }
             }
