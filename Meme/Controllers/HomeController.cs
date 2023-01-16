@@ -52,7 +52,7 @@ namespace Meme.Controllers
         {
             ViewBag.Message = "Your application description page.";
 
-            ViewBag.Something = "Microsoft bekar";
+            //ViewBag.Something = "Microsoft bekar";
             var Memes = new MemeModel();
 
 

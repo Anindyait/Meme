@@ -58,8 +58,8 @@ namespace Startup.Models
                     cmd = new MySqlCommand("create table if not exists meme_table(meme_no integer auto_increment, " +
                                            "m_name varchar(255) unique not null," +
                                            "user_id integer," +
-                                           "liked_no integer(20)," +
-                                           "disliked_no integer(20)," +
+                                           "liked_no varchar(255)," +
+                                           "disliked_no varchar(255)," +
                                            "imgs varchar(255) not null," +
                                            "age integer(20)," +
                                            "primary key(meme_no)," +
