@@ -77,5 +77,20 @@ namespace Meme.Controllers
             return RedirectToAction("../Upload.aspx");
         }
 
+        public ActionResult Logout()
+        {
+            ViewBag.Message = "Your logout";
+
+            var Memes = new MemeModel();
+
+            HttpCookie cookie = new HttpCookie("meme_cookie");
+            cookie.Value = null;
+            cookie.Expires = DateTime.Now.AddDays(-1d);
+            Response.Cookies.Add(cookie);
+
+            Response.Redirect("/Login.aspx");
+            return View(Memes);
+        }
+
     }
 }
