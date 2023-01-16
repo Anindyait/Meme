@@ -45,97 +45,109 @@ namespace Meme
 
                     if (!allowedExtensions.Contains(fileExtension))
                     {
-                        Label1.Text = "Not an image";
+                        Label1.Text = "Not an image, video or gif";
                         Label1.ForeColor = System.Drawing.Color.Red;
                     }
                     else
                     {
-                        Label1.Text = "Image uploaded";
-                        Label1.ForeColor = System.Drawing.Color.Green;
-                        Debug.WriteLine(FileUpload1.FileName.ToString());
+                        int fileSize = FileUpload1.PostedFile.ContentLength;
 
-                        string imgs = FileUpload1.FileName.ToString();
-
-                        using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+                        // Allowing a max of 300 Mb
+                        if (fileSize > 314572800)
                         {
-
-                            try
-                            {
-                                con.Open();
-
-                                MySqlCommand cmd;
-
-
-                                cmd = new MySqlCommand("select imgs from meme_table where imgs = @Imgs;", con);
-                                cmd.Parameters.AddWithValue("@Imgs", "Memes/" + imgs);
-
-                                MySqlDataReader reader = cmd.ExecuteReader();
-
-                                if (reader.Read())
-                                {
-                                    Debug.WriteLine("Found duplicate " + imgs);
-                                    imgs = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + imgs;
-                                    Debug.WriteLine("Found duplicate " + imgs);
-
-                                }
-
-
-                            }
-                            catch (MySqlException ex)
-                            {
-                                Debug.WriteLine(ex);
-                            }
-                            finally
-                            {
-                                con.Close();
-                            }
+                            Label1.Text = "Maximum filesize(300 Mb) exceeded!";
+                            Label1.ForeColor = System.Drawing.Color.Red;
                         }
-
-                        using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+                        else
                         {
+                            Label1.Text = "Image uploaded";
+                            Label1.ForeColor = System.Drawing.Color.Green;
+                            Debug.WriteLine(FileUpload1.FileName.ToString());
 
-                            try
+                            string imgs = FileUpload1.FileName.ToString();
+
+                            using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
                             {
-                                con.Open();
 
-                                MySqlCommand cmd;
-
-                                //string imgs = "Memes/" + FileUpload1.FileName.ToString();
-
-                                if (Request.Form["age"] == null || Request.Form["age"] == "")
+                                try
                                 {
-                                    cmd = new MySqlCommand("insert into meme_table(m_name, imgs, user_id) values (@M_name, @Imgs, @UID)", con);
+                                    con.Open();
 
-                                    cmd.Parameters.AddWithValue("@M_name", post_title.Value);
+                                    MySqlCommand cmd;
+
+
+                                    cmd = new MySqlCommand("select imgs from meme_table where imgs = @Imgs;", con);
                                     cmd.Parameters.AddWithValue("@Imgs", "Memes/" + imgs);
-                                    cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+
+                                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                                    if (reader.Read())
+                                    {
+                                        Debug.WriteLine("Found duplicate " + imgs);
+                                        imgs = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + imgs;
+                                        Debug.WriteLine("Found duplicate " + imgs);
+
+                                    }
+
+
                                 }
-                                else
+                                catch (MySqlException ex)
                                 {
-                                    cmd = new MySqlCommand("insert into meme_table(m_name, imgs, age, user_id) values (@M_name, @Imgs, @Age, @UID)", con);
-
-                                    cmd.Parameters.AddWithValue("@M_name", post_title.Value);
-                                    cmd.Parameters.AddWithValue("@Imgs", "Memes/" + imgs);
-                                    cmd.Parameters.AddWithValue("@Age", Request.Form["age"]);
-                                    cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                                    Debug.WriteLine(ex);
                                 }
-
-                                cmd.ExecuteNonQuery();
-                                FileUpload1.SaveAs(Request.PhysicalApplicationPath + "/Memes/" + imgs);
-
-                                var Model = new MemeModel();
-                                Response.Redirect("~/Home/Profile?uid=" + Model.GetUID());
-
-
+                                finally
+                                {
+                                    con.Close();
+                                }
                             }
-                            catch (MySqlException ex)
+
+                            using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
                             {
-                                Debug.WriteLine(ex);
+
+                                try
+                                {
+                                    con.Open();
+
+                                    MySqlCommand cmd;
+
+                                    //string imgs = "Memes/" + FileUpload1.FileName.ToString();
+
+                                    if (Request.Form["age"] == null || Request.Form["age"] == "")
+                                    {
+                                        cmd = new MySqlCommand("insert into meme_table(m_name, imgs, user_id) values (@M_name, @Imgs, @UID)", con);
+
+                                        cmd.Parameters.AddWithValue("@M_name", post_title.Value);
+                                        cmd.Parameters.AddWithValue("@Imgs", "Memes/" + imgs);
+                                        cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                                    }
+                                    else
+                                    {
+                                        cmd = new MySqlCommand("insert into meme_table(m_name, imgs, age, user_id) values (@M_name, @Imgs, @Age, @UID)", con);
+
+                                        cmd.Parameters.AddWithValue("@M_name", post_title.Value);
+                                        cmd.Parameters.AddWithValue("@Imgs", "Memes/" + imgs);
+                                        cmd.Parameters.AddWithValue("@Age", Request.Form["age"]);
+                                        cmd.Parameters.AddWithValue("@UID", cookie.Value.Substring(4));
+                                    }
+
+                                    cmd.ExecuteNonQuery();
+                                    FileUpload1.SaveAs(Request.PhysicalApplicationPath + "/Memes/" + imgs);
+
+                                    var Model = new MemeModel();
+                                    Response.Redirect("~/Home/Profile?uid=" + Model.GetUID());
+
+
+                                }
+                                catch (MySqlException ex)
+                                {
+                                    Debug.WriteLine(ex);
+                                }
+                                finally
+                                {
+                                    con.Close();
+                                }
                             }
-                            finally
-                            {
-                                con.Close();
-                            }
+
                         }
                     
                     }
