@@ -17,6 +17,51 @@
 
 
     <link rel="stylesheet" href="../Content/style1.css">
+
+
+    <script>
+        function like(like_button) {
+
+            var button_val = like_button.value;
+            var job = "";
+            var likedString = "";
+            var noOfLikes = 0;
+            let comma = /,/g; //regex for comma, g for global search
+
+            var count = document.getElementById("count " + button_val);
+
+            if (like_button.checked) {
+                job = "Like";
+            }
+            else {
+                job = "Unlike";
+            }
+
+            var http = new XMLHttpRequest();
+            http.open("POST", "Like", true);
+            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            var params = "val=" + button_val + "&job=" + job;
+            http.send(params);
+
+            http.onreadystatechange = function () {
+                if (http.readyState == XMLHttpRequest.DONE) {
+                    console.log(http.response);
+                    likedString = http.response;
+
+                    if (likedString != "") {
+                        noOfLikes = (likedString.match(comma).length / 2).toFixed(0);
+                    }
+
+                    console.log("no of likes = " + noOfLikes);
+
+                    count.innerHTML = noOfLikes;
+                }
+            };
+        }
+        
+    </script>
+
 </head>
 
 <body>
@@ -62,24 +107,32 @@
             {
                 for (int i = 0; i < Model.eachMeme.Count; i++)
                 {
-                    <div class="postcard">
+        <div class="postcard" onclick="click()">
 
-                        <a href="Profile?uid=@Model.eachMeme[i].uid">
-                            <div class="postersname">@Model.eachMeme[i].poster_name</div>
-                        </a>
-                        <div class="posttitle">@Model.eachMeme[i].meme_title</div>
+            <a href="Profile?uid=@Model.eachMeme[i].uid">
+                <div class="postersname">@Model.eachMeme[i].poster_name</div>
+            </a>
+            <div class="posttitle">@Model.eachMeme[i].meme_title</div>
 
-                        @if (Model.eachMeme[i].type)
-                        {
-                            <video src="../@Model.eachMeme[i].address" controls />
+            @if (Model.eachMeme[i].type)
+            {
+                <video src="../@Model.eachMeme[i].address" controls ></video>
 
-                        }
-                        else
-                        {
-                            <img src="../@Model.eachMeme[i].address">
-                        }
-                    </div>
-                }
+            }
+            else
+            {
+                <img src="../@Model.eachMeme[i].address">
+            }
+
+            <div class="like-button-container">
+                <input type="checkbox" class="btn-check" name="Like" id="Like @Model.eachMeme[i].meme_no" value="@Model.eachMeme[i].meme_no" onchange="like(this)" @Model.eachMeme[i].liked >
+                <label class="btn btn-outline-danger like-button" for="Like @Model.eachMeme[i].meme_no"><i class="fa-regular fa-gem"></i></label>
+                <span id="count @Model.eachMeme[i].meme_no" class="no-of-likes">@Model.NoOfLikes(Model.eachMeme[i].meme_no)</span>
+            </div>
+
+
+        </div>
+            }
             }
 
         </div>

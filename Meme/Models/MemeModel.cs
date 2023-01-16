@@ -13,18 +13,23 @@ namespace Meme.Models
         public struct post
         {
             public string uid;
+            public string meme_no;
             public string poster_name;
             public string meme_title;
             public string address;
             public bool type;
-            public post(string uid, string poster_name, string meme_title, string address, bool type)
+            public string liked;
+            public post(string uid, string meme_no, string poster_name, string meme_title, string address, bool type, string liked)
             {
                 this.uid = uid;
+                this.meme_no = meme_no;
                 this.poster_name = poster_name;
                 this.meme_title = meme_title;
                 this.address = address;
                 //true for video, false for imgs
                 this.type = type;
+                //whether user liked the post or not
+                this.liked = liked;
             }
         }
 
@@ -35,7 +40,7 @@ namespace Meme.Models
             public string last_name;
             public string email;
             public string phone;
-            public user_details(string uid="", string first_name="a", string last_name="b", string email="c", string phone="1")
+            public user_details(string uid = "", string first_name = "a", string last_name = "b", string email = "c", string phone = "1")
             {
                 this.uid = uid;
                 this.first_name = first_name;
@@ -58,14 +63,14 @@ namespace Meme.Models
 
             string uid = null;
 
-            if(cookie!=null)
+            if (cookie != null)
             {
                 uid = cookie.Value.Substring(4);
             }
             return uid;
         }
 
-        public void GetMemes(String uid = null)
+        public void GetMemes(string profile_uid, string user_uid, string show = null)
         {
 
             eachMeme = new List<post>();
@@ -76,7 +81,8 @@ namespace Meme.Models
 
                 MySqlCommand cmd;
 
-                if (uid == null)
+
+                if (show.Equals("All"))
                 {
                     cmd = new MySqlCommand(allMeme, con);
                 }
@@ -84,7 +90,7 @@ namespace Meme.Models
                 else
                 {
                     cmd = new MySqlCommand("select * from meme_table where user_id = @User_id order by meme_no desc", con);
-                    cmd.Parameters.AddWithValue("@User_id", uid);
+                    cmd.Parameters.AddWithValue("@User_id", profile_uid);
                 }
 
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -103,11 +109,22 @@ namespace Meme.Models
 
                     MySqlDataReader user_name = cmd2.ExecuteReader();
 
+                    string liked = ""; //to store "checked" or ""
+
                     string filename = reader["imgs"].ToString().ToLower();
 
                     string extension = filename.Substring(filename.Length - 4);
 
                     bool filetype = false;
+
+                    int noOfLikes =  NoOfLikes(reader["meme_no"].ToString());
+
+                    Debug.WriteLine(reader["meme_no"].ToString() + " " + noOfLikes);
+
+                    if (reader["liked_no"].ToString().Contains("," + user_uid + ","))
+                    {
+                        liked = "checked";
+                    }
 
                     if (extension == ".mp4" || extension == ".mov" || extension == "webm" || extension == "wmv" || extension == "flv")
                     {
@@ -116,7 +133,7 @@ namespace Meme.Models
 
                     if (user_name.Read())
                     {
-                        eachMeme.Add(new post(reader["user_id"].ToString(), user_name["first_name"].ToString() + " " + user_name["last_name"].ToString(), reader["m_name"].ToString(), reader["imgs"].ToString(), filetype));
+                        eachMeme.Add(new post(reader["user_id"].ToString(), reader["meme_no"].ToString(), user_name["first_name"].ToString() + " " + user_name["last_name"].ToString(), reader["m_name"].ToString(), reader["imgs"].ToString(), filetype, liked));
                     }
 
                     con2.Close();
@@ -148,6 +165,89 @@ namespace Meme.Models
 
                 con.Close();
             }
+        }
+
+        public string LikeMeme(string job, string meme_no, string uid)
+        {
+            string likedString = null;
+
+            using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+            {
+                con.Open();
+
+
+                MySqlCommand cmd;
+
+                cmd = new MySqlCommand("select liked_no from meme_table where meme_no = @Meme_No", con);
+                cmd.Parameters.AddWithValue("@Meme_No", meme_no);
+
+                MySqlDataReader liked = cmd.ExecuteReader();
+
+                if (liked.Read())
+                {
+                    likedString = liked["liked_no"].ToString();
+                }
+
+                con.Close();
+                con.Open();
+
+                if (job.Equals("Like"))
+                {
+                    likedString = "," + uid + "," + likedString;
+
+                }
+
+                else if (job.Equals("Unlike"))
+                {
+                    likedString = likedString.Replace("," + uid + ",", "");
+                }
+
+                cmd = new MySqlCommand("update meme_table set liked_no = @Liked where meme_no = @Meme_No", con);
+
+                cmd.Parameters.AddWithValue("@Liked", likedString);
+                cmd.Parameters.AddWithValue("@Meme_No", meme_no);
+
+                cmd.ExecuteNonQuery();
+
+
+            }
+
+            return likedString;
+        }
+
+        public int NoOfLikes(string meme_no)
+        {
+            int noOfLikes = 0;
+
+            using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+            {
+                con.Open();
+
+                string likedString = null;
+
+
+                MySqlCommand cmd;
+
+                cmd = new MySqlCommand("select liked_no from meme_table where meme_no = @Meme_No", con);
+                cmd.Parameters.AddWithValue("@Meme_No", meme_no);
+
+                MySqlDataReader liked = cmd.ExecuteReader();
+
+                if (liked.Read())
+                {
+                    likedString = liked["liked_no"].ToString();
+                }
+
+                if (likedString != null)
+                {
+                    noOfLikes = likedString.Count(f => (f == ','));
+
+                    if (noOfLikes > 0)
+                        noOfLikes = noOfLikes / 2;
+                }
+            }
+
+            return noOfLikes;
         }
     }
 }

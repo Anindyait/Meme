@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,12 +16,12 @@ namespace Meme.Controllers
             var Start = new StartupModel();
             Start.CreateTables();
 
-            string uid = Memes.GetUID();
+            string user_uid = Memes.GetUID();
 
-            if (uid != null)
+            if (user_uid != null)
             {
 
-                Memes.GetMemes();
+                Memes.GetMemes("", user_uid, "All");
 
                 return View(Memes);
             }
@@ -31,11 +32,14 @@ namespace Meme.Controllers
             }
         }
 
+        [Route("Profile/{uid}")]
         public new ActionResult Profile(string uid)
         {
             var Memes = new MemeModel();
             Memes.GetUserDetails(uid);
-            Memes.GetMemes(uid);
+            string user_uid = Memes.GetUID();
+
+            Memes.GetMemes(uid, user_uid, "Profile");
 
             return View(Memes);
         }
@@ -67,6 +71,15 @@ namespace Meme.Controllers
             var Memes = new MemeModel();
 
             return RedirectToAction("../Upload.aspx");
+        }
+
+        public string Like(string val, string job)
+        {
+            var Memes = new MemeModel();
+            string uid = Memes.GetUID();
+            string likedString = Memes.LikeMeme(job, val, uid);
+            Debug.WriteLine("Like called "+ val);
+            return likedString;
         }
 
     }
