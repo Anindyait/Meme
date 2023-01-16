@@ -34,10 +34,18 @@ namespace Meme.Controllers
         public new ActionResult Profile(string uid)
         {
             var Memes = new MemeModel();
-            Memes.GetUserDetails(uid);
-            Memes.GetMemes(uid);
+            if (Memes.GetUID() == null)
+            {
+                Response.Redirect("/Login.aspx");
+                return View(Memes);
+            }
+            else
+            {
+                Memes.GetUserDetails(uid);
+                Memes.GetMemes(uid);
 
-            return View(Memes);
+                return View(Memes);
+            }
         }
 
         public ActionResult About()
