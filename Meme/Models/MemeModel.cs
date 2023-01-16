@@ -50,7 +50,7 @@ namespace Meme.Models
             }
         }
 
-        string allMeme = "select * from meme_table order by meme_no desc";
+        string allMeme = "select * from meme_table where (age <= @Age or age is null) order by meme_no desc";
 
 
         public List<post> eachMeme { get; set; }
@@ -80,17 +80,48 @@ namespace Meme.Models
                 con.Open();
 
                 MySqlCommand cmd;
+                int age = 0;
+
+                cmd = new MySqlCommand("select dob from user_table where user_id = @User_id", con);
+                cmd.Parameters.AddWithValue("@User_id", GetUID());
+                MySqlDataReader read = cmd.ExecuteReader();
+
+                while (read.Read())
+                {
+                    // Getting age of user
+                    DateTime dob = Convert.ToDateTime(read["dob"].ToString());
+                    DateTime now = DateTime.Now;
+                    age = now.Year - dob.Year;
+                    if (now < dob.AddYears(age)) age--;
+                    Debug.WriteLine("Age: " + age);
+                }
+
+                con.Close();
+                con.Open();
 
 
                 if (show.Equals("All"))
                 {
                     cmd = new MySqlCommand(allMeme, con);
+                    cmd.Parameters.AddWithValue("@Age", age);
                 }
 
                 else
                 {
-                    cmd = new MySqlCommand("select * from meme_table where user_id = @User_id order by meme_no desc", con);
-                    cmd.Parameters.AddWithValue("@User_id", profile_uid);
+                    
+                    // While viewing someone else's profile
+                    if (profile_uid != GetUID())
+                    {
+                        cmd = new MySqlCommand("select * from meme_table where user_id = @User_id and (age is null or age <= @Age) order by meme_no desc", con);
+                        cmd.Parameters.AddWithValue("@Age", age);
+                        cmd.Parameters.AddWithValue("@User_id", profile_uid);
+                    }
+                    // See all posts from your profile irrespective of age
+                    else
+                    {
+                        cmd = new MySqlCommand("select * from meme_table where user_id = @User_id order by meme_no desc", con);
+                        cmd.Parameters.AddWithValue("@User_id", profile_uid);
+                    }
                 }
 
                 MySqlDataReader reader = cmd.ExecuteReader();

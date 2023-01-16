@@ -39,16 +39,25 @@ namespace Meme.Controllers
             Memes.GetUserDetails(uid);
             string user_uid = Memes.GetUID();
 
-            Memes.GetMemes(uid, user_uid, "Profile");
+            if (Memes.GetUID() == null)
+            {
+                Response.Redirect("/Login.aspx");
+                return View(Memes);
+            }
+            else
+            {
+                Memes.GetUserDetails(uid);
+                Memes.GetMemes(uid, user_uid, "Profile");
 
-            return View(Memes);
+                return View(Memes);
+            }
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
-            ViewBag.Something = "Microsoft bekar";
+            //ViewBag.Something = "Microsoft bekar";
             var Memes = new MemeModel();
 
 
@@ -78,9 +87,25 @@ namespace Meme.Controllers
             var Memes = new MemeModel();
             string uid = Memes.GetUID();
             string likedString = Memes.LikeMeme(job, val, uid);
-            Debug.WriteLine("Like called "+ val);
+            Debug.WriteLine("Like called " + val);
             return likedString;
         }
+
+        public ActionResult Logout()
+        {
+            ViewBag.Message = "Your logout";
+
+            var Memes = new MemeModel();
+
+            HttpCookie cookie = new HttpCookie("meme_cookie");
+            cookie.Value = null;
+            cookie.Expires = DateTime.Now.AddDays(-1d);
+            Response.Cookies.Add(cookie);
+
+            Response.Redirect("/Login.aspx");
+            return View(Memes);
+        }
+
 
     }
 }
