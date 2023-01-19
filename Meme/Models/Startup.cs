@@ -68,6 +68,56 @@ namespace Startup.Models
                     cmd.ExecuteNonQuery();
 
                     Console.WriteLine("Tables created successfully!");
+
+                    cmd = new MySqlCommand("insert ignore into user_table(first_name, last_name, email, phone, dob, password) " +
+                                            "values('Dummy', 'User', 'dummy@meme.com', '1234567890', '2023-01-01', 'Qwerty1@');", con);
+
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+                    con.Open();
+
+                    cmd = new MySqlCommand("select user_id from user_table where email = 'dummy@meme.com';", con);
+
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    int uid = 0;
+
+                    if(reader.Read())
+                    {
+                        uid = (int)reader["user_id"];
+
+                    }
+
+                    con.Close();
+                    con.Open();
+
+
+                    cmd = new MySqlCommand("insert ignore into meme_table(m_name, user_id, imgs) " +
+                                           "values('Benefits of not having a room', @uid, 'Memes/roomless.jpg');", con);
+                    cmd.Parameters.AddWithValue("@uid", uid);
+
+                    cmd.ExecuteNonQuery();
+
+                    cmd = new MySqlCommand("insert ignore into meme_table(m_name, user_id, imgs) " +
+                                           "values('When see the project name', @uid, 'Memes/the-rock-meme-360.mp4');", con);
+                    cmd.Parameters.AddWithValue("@uid", uid);
+
+                    cmd.ExecuteNonQuery();
+
+                    cmd = new MySqlCommand("insert ignore into meme_table(m_name, user_id, imgs) " +
+                                           "values('Scary', @uid, 'Memes/non-binary.jpg');", con);
+                    cmd.Parameters.AddWithValue("@uid", uid);
+
+                    cmd.ExecuteNonQuery();
+
+                    cmd = new MySqlCommand("insert ignore into meme_table(m_name, user_id, imgs) " +
+                                           "values('When you clear unclosed tabs on your mom''s phone and it no longer hangs', @uid, 'Memes/Hackerman.jpg');", con);
+                    cmd.Parameters.AddWithValue("@uid", uid);
+
+                    cmd.ExecuteNonQuery();
+
+
                 }
                 catch (MySqlException ex) 
                 {
