@@ -11,7 +11,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="Content/style1.css">
 
-
+     <script>
+         $(function () {
+             $("#header").load("header.html");
+         });
+     </script>
 
     <!--DOB-->
 
@@ -242,7 +246,7 @@ function change_month(select) {
                                 <option selected value="" disabled>Choose...</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
-                                <option value="Others">Casio WS-1400H-4AVDF-D272</option>
+                                <option value="Others">Sus</option>
                             </select>
                             <div class="invalid-feedback">
                                 Enter your gender

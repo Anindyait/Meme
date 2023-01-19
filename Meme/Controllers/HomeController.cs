@@ -79,7 +79,16 @@ namespace Meme.Controllers
 
             var Memes = new MemeModel();
 
-            return RedirectToAction("../Upload.aspx");
+            return View(Memes);
+        }
+
+        public ActionResult LikedMemes()
+        {
+            var Memes = new MemeModel();
+
+            Memes.GetMemes("", Memes.GetUID(), "LikedMemes");
+
+            return View(Memes);
         }
 
         public string Like(string val, string job)
@@ -90,6 +99,8 @@ namespace Meme.Controllers
             Debug.WriteLine("Like called " + val);
             return likedString;
         }
+
+
 
         public ActionResult Logout()
         {

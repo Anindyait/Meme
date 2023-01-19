@@ -106,7 +106,7 @@ namespace Meme.Models
                     cmd.Parameters.AddWithValue("@Age", age);
                 }
 
-                else
+                else if(show.Equals("Profile"))
                 {
                     
                     // While viewing someone else's profile
@@ -122,6 +122,12 @@ namespace Meme.Models
                         cmd = new MySqlCommand("select * from meme_table where user_id = @User_id order by meme_no desc", con);
                         cmd.Parameters.AddWithValue("@User_id", profile_uid);
                     }
+                }
+
+                else if(show.Equals("LikedMemes"))
+                {
+                    cmd = new MySqlCommand("select * from meme_table where liked_no like (@UID_with_comma) order by meme_no desc", con);
+                    cmd.Parameters.AddWithValue("@UID_with_comma", "%," + user_uid + ",%");
                 }
 
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -279,6 +285,28 @@ namespace Meme.Models
             }
 
             return noOfLikes;
+        }
+
+        public void LikedMemes(string uid)
+        {
+            using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+            {
+                con.Open();
+
+                MySqlCommand cmd;
+
+                cmd = new MySqlCommand("select * from user_table where user_id = @User_id", con);
+                cmd.Parameters.AddWithValue("@User_id", uid);
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    user = new user_details(uid, reader["first_name"].ToString(), reader["last_name"].ToString(), reader["email"].ToString(), reader["phone"].ToString());
+                }
+
+                con.Close();
+            }
         }
     }
 }

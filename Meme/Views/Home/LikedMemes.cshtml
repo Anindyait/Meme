@@ -1,0 +1,105 @@
+﻿@model Meme.Models.MemeModel
+@{
+    ViewBag.Title = "LikedMemes";
+}
+
+<head>
+    <meta charset="ISO-8859-1">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://kit.fontawesome.com/13deb536c6.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../Content/style1.css">
+
+
+    <script>
+        function like(like_button) {
+
+            var button_val = like_button.value;
+            var job = "";
+            var likedString = "";
+            var noOfLikes = 0;
+            let comma = /,/g; //regex for comma, g for global search
+
+            var count = document.getElementById("count " + button_val);
+
+            if (like_button.checked) {
+                job = "Like";
+            }
+            else {
+                job = "Unlike";
+            }
+
+            var http1 = new XMLHttpRequest();
+            http1.open("POST", "/Home/Like", true);
+            http1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            var params = "val=" + button_val + "&job=" + job;
+            http1.send(params);
+
+            http1.onreadystatechange = function () {
+                if (http1.readyState == XMLHttpRequest.DONE) {
+                    console.log(http1.response);
+                    likedString = http1.response;
+
+                    if (likedString != "") {
+                        noOfLikes = (likedString.match(comma).length / 2).toFixed(0);
+                    }
+
+                    console.log("no of likes = " + noOfLikes);
+
+                    count.innerHTML = noOfLikes;
+                }
+            };
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="font">
+        <div class="container-fluid">
+
+
+            <a href="~/Upload.aspx">
+                <div class="post-button btn btn-primary"><i class="fa-solid fa-plus fa-sm"></i>&nbsp;&nbsp;Post</div>
+            </a>
+
+
+
+            @if (Model.eachMeme != null)
+            {
+                for (int i = 0; i < Model.eachMeme.Count; i++)
+                {
+                    <div class="postcard">
+                        <a href="Home/Profile?uid=@Model.eachMeme[i].uid">
+                            <div class="postersname">@Model.eachMeme[i].poster_name</div>
+                        </a>
+                        <div class="posttitle">@Model.eachMeme[i].meme_title</div>
+
+                        @if (Model.eachMeme[i].type)
+                        {
+                            <video src="../@Model.eachMeme[i].address" controls></video>
+                        }
+                        else
+                        {
+                            <img src="../@Model.eachMeme[i].address">
+                        }
+
+                        <div class="like-button-container">
+                            <input type="checkbox" class="btn-check" name="Like" id="Like @Model.eachMeme[i].meme_no" value="@Model.eachMeme[i].meme_no" onchange="like(this)" @Model.eachMeme[i].liked>
+                            <label class="btn btn-outline-danger like-button" for="Like @Model.eachMeme[i].meme_no"><i class="fa-regular fa-gem"></i></label>
+                            <span id="count @Model.eachMeme[i].meme_no" class="no-of-likes">@Model.NoOfLikes(Model.eachMeme[i].meme_no)</span>
+                        </div>
+
+                    </div>
+                }
+            }
+
+        </div>
+
+    </div>
+</body>
+

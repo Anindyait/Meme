@@ -899,7 +899,7 @@ input:focus{
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 30px;
-	max-width: 700px;
+	max-width: 600px;
 	min-width: 9%;
 	
 }
@@ -911,7 +911,7 @@ input:focus{
 		margin-left: auto;
 		margin-right: auto;
 		border-radius: 30px;
-		width:420px;
+		width:400px;
 		
 	
 	}
@@ -1584,6 +1584,10 @@ input:focus{
 
    .category-links{
 	overflow: hidden;
+   }
+
+   .category-links:hover{
+	text-decoration: none;
    }
 
 
