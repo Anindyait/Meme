@@ -39,6 +39,14 @@
           }
       </script>
 
+
+      <script>
+            $(function () {
+                $("#header").load("header.html");
+    });
+    </script>
+
+
 </head>
 <body onload="getQuote()">
 
