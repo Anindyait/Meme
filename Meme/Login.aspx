@@ -101,11 +101,11 @@
                                     <div class="row">
                                         <div class="col">
                                            
-                                            <asp:Button ID="Button1" runat="server" Text="Login" type="submit" class="btn btn-dark form-submit" style="margin-bottom: 10px;" OnClick="Button1_Click" />
+                                            <asp:Button ID="Button1" runat="server" Text="Login" type="submit" class="btn red form-submit" style="margin-bottom: 10px;" OnClick="Button1_Click" />
                                         </div>
                                         <div class="col">
                                             <a href="register.aspx">
-                                                <div type="sub" class="btn btn-outline-dark form-submit">Sign up</div>
+                                                <div type="sub" class="btn red-outline form-submit">Sign up</div>
                                             </a>
                                         </div>
                                     </div>

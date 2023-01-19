@@ -59,6 +59,22 @@
                 }
             };
         }
+
+        function remove(del) {
+            var val = del.dataset.meme;
+            var post = del.parentElement.parentElement;
+
+            console.log(val);
+
+            var http = new XMLHttpRequest();
+            http.open("POST", "Delete", true);
+            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            var params = "meme_no=" + val;
+            http.send(params);
+
+            post.innerHTML = '<div class="deleted"><i class="fa-solid fa-circle-xmark"></i> &nbsp;Post deleted</div>';
+        }
         
     </script>
 
@@ -124,11 +140,19 @@
                 <img src="../@Model.eachMeme[i].address">
             }
 
-            <div class="like-button-container">
-                <input type="checkbox" class="btn-check" name="Like" id="Like @Model.eachMeme[i].meme_no" value="@Model.eachMeme[i].meme_no" onchange="like(this)" @Model.eachMeme[i].liked >
-                <label class="btn btn-outline-danger like-button" for="Like @Model.eachMeme[i].meme_no"><i class="fa-regular fa-gem"></i></label>
-                <span id="count @Model.eachMeme[i].meme_no" class="no-of-likes">@Model.NoOfLikes(Model.eachMeme[i].meme_no)</span>
-            </div>
+        <div class="like-button-container">
+            <input type="checkbox" class="btn-check" name="Like" id="Like @Model.eachMeme[i].meme_no" value="@Model.eachMeme[i].meme_no" onchange="like(this)" @Model.eachMeme[i].liked>
+            <label class="btn btn-outline-danger like-button" for="Like @Model.eachMeme[i].meme_no"><i class="fa-regular fa-gem"></i></label>
+            <span id="count @Model.eachMeme[i].meme_no" class="no-of-likes">@Model.NoOfLikes(Model.eachMeme[i].meme_no)</span>
+
+
+
+            @if (Model.user.uid.Equals(Model.GetUID()))
+            {
+                <span id="del" data-meme="@Model.eachMeme[i].meme_no" onclick="remove(this)"><i class="fa-solid fa-trash fa-lg"></i></span>
+            }
+
+        </div>
 
 
         </div>

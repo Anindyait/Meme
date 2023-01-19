@@ -102,6 +102,17 @@ namespace Meme.Controllers
 
 
 
+        public void Delete(string meme_no)
+        {
+            var Memes = new MemeModel();
+            string uid = Memes.GetUID();
+            Memes.DeleteMeme(meme_no);
+            Debug.WriteLine("delete called " + meme_no);
+         
+        }
+
+
+
         public ActionResult Logout()
         {
             ViewBag.Message = "Your logout";

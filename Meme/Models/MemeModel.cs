@@ -308,5 +308,22 @@ namespace Meme.Models
                 con.Close();
             }
         }
+
+        public void DeleteMeme(string meme_no)
+        {
+            using (MySqlConnection con = new MySqlConnection("server=localhost;user=root;database=meme;port=3306;password=abcd"))
+            {
+                con.Open();
+
+                MySqlCommand cmd;
+
+                cmd = new MySqlCommand("delete from meme_table where meme_no = @Meme_No", con);
+                cmd.Parameters.AddWithValue("@Meme_No", meme_no);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
     }
 }

@@ -21,6 +21,17 @@
             console.log("Dislike");
         }
     }
+
+
+    function remove(del)
+    {
+        var val = del.dataset.meme;
+        var post = del.parentElement.parentElement;
+
+        console.log(val);
+
+        post.innerHTML = '<div class="deleted"><i class="fa-solid fa-circle-xmark"></i> &nbsp;Post deleted</div>';
+    }
 </script>
 
 </head>
@@ -44,8 +55,14 @@
                     <input type="checkbox" class="btn-check" name="Like" value="0" id="Like" checked onchange="like(this)">
                     <label class="btn btn-outline-danger like-button" for="Like"><i class="fa-regular fa-gem fa-lg"></i></label>
                     <span id="count @Model.eachMeme[i].meme_no" class="no-of-likes">12</span>
+                    <span id="del" data-meme = "69" onclick="remove(this)"><i class="fa-solid fa-trash fa-lg"></i></span>
 
                 </div>
+            </div>
+
+            <div class="postcard">
+                
+                <div class="deleted"><i class="fa-solid fa-circle-xmark"></i> &nbsp;Post deleted</div>
             </div>
 
             <div class="postcard">
