@@ -287,7 +287,7 @@ function change_month(select) {
                     <div class="col-sm" style="padding: 20px 1px;">
                         <div class="form-floating mb-3">
                             <!--<ASP:button type="submit" class="btn btn-primary form-submit" id="Submit" runat="server" Text="Submit"></ASP:button>-->
-                            <asp:Button ID="Button1" class="btn red form-submit" runat="server" Text="Button" OnClick="Button1_Click" />
+                            <asp:Button ID="Button1" class="btn red form-submit" runat="server" Text="Register" OnClick="Button1_Click" />
                             
                         </div>
                     </div>
