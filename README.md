@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="Meme/Meme/Content/amongus.png" alt="Logo" width="80" height="80">
+    <img src="Meme/Content/amongus.png" alt="Logo" width="80" height="80">
     <h3 align="center">SUS</h3>
     <p align="center">
         <!--PROJECT DESCRIPTION--!>
@@ -75,7 +75,7 @@ Now you can locally host the Meme website.
 │   ├── Login.aspx.cs..................C# for handling Login 
 │   ├── Memes
 │   ├── Models
-│   │   ├── MemeModel.cs
+│   │   ├── MemeModel.cs...............Handles all meme functionality
 │   │   └── Startup.cs.................Creates the database and a dummy user
 │   ├── postRegister.html
 │   ├── register.aspx..................Webform for Register
