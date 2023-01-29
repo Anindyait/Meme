@@ -58,7 +58,7 @@ Now you can locally host the Meme website.
 ```
 .
 ├── LICENSE
-├── Meme...............................Project folder
+├── Meme ............................... Project folder
 │   ├── App_Start
 │   ├── Content
 │   │   ├── aboutUs1.jpg
@@ -67,23 +67,23 @@ Now you can locally host the Meme website.
 │   │   ├── Dev pics
 │   │   └── style1.css
 │   ├── Controllers
-│   │   └── HomeController.cs..........C# for all Views linked to Home
+│   │   └── HomeController.cs .......... C# for all Views linked to Home
 │   ├── favicon.ico
-│   ├── Global.asax.cs.................MVC Configuration Setup
-│   ├── header.html....................Header for webforms not under MVC Model
-│   ├── Login.aspx.....................Webform for Login
-│   ├── Login.aspx.cs..................C# for handling Login 
+│   ├── Global.asax.cs ................. MVC Configuration Setup
+│   ├── header.html .................... Header for webforms not under MVC Model
+│   ├── Login.aspx ..................... Webform for Login
+│   ├── Login.aspx.cs .................. C# for handling Login 
 │   ├── Memes
 │   ├── Models
-│   │   ├── MemeModel.cs...............Handles all meme functionality
-│   │   └── Startup.cs.................Creates the database and a dummy user
+│   │   ├── MemeModel.cs ............... Handles all meme functionality
+│   │   └── Startup.cs ................. Creates the database and a dummy user
 │   ├── postRegister.html
-│   ├── register.aspx..................Webform for Register
-│   ├── register.aspx.cs...............C# for handling Register
-│   ├── Upload.aspx....................Webform for Upload
-│   ├── Upload.aspx.cs.................C# for handling Upload
+│   ├── register.aspx .................. Webform for Register
+│   ├── register.aspx.cs ............... C# for handling Register
+│   ├── Upload.aspx .................... Webform for Upload
+│   ├── Upload.aspx.cs ................. C# for handling Upload
 │   ├── Views
-│   │   ├── Home.......................Contains the views handled by HomeController
+│   │   ├── Home ....................... Contains the views handled by HomeController
 │   │   │   ├── About.cshtml
 │   │   │   ├── Contact.cshtml
 │   │   │   ├── Index.cshtml
@@ -91,9 +91,9 @@ Now you can locally host the Meme website.
 │   │   │   ├── Profile.cshtml
 │   │   │   └── Upload.cshtml
 │   │   ├── Shared
-│   │   │   ├── Error.cshtml...........Error page to the MVC Views
-│   │   │   └── _Layout.cshtml.........Contains Header to the MVC Views
+│   │   │   ├── Error.cshtml ........... Error page to the MVC Views
+│   │   │   └── _Layout.cshtml ......... Contains Header to the MVC Views
 │   │   ├── _ViewStart.cshtml
-├── Meme.sln...........................Solution file to open in Visual Studio
+├── Meme.sln ........................... Solution file to open in Visual Studio
 └── README.md
 ```
